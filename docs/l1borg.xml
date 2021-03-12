@@ -1,0 +1,90 @@
+<!--
+WARNING: ALL PARAMETERS ARE MANDATORY.    
+-->    
+
+<?xml version="1.0" standalone="yes"?>
+<l1borg>
+    <!-- 
+    The <env> </env> section is mandatory. Set up the environment
+    for running BorgBackup. This section is very important and
+    should always be kept unchanged when used on the same system
+    -->
+    <env>
+        <BORG_REPO>/storage/borgbackup/repos</BORG_REPO>
+        <BORG_CONFIG_DIR>/etc/borg</BORG_CONFIG_DIR>
+        <BORG_SECURITY_DIR>/etc/borg/security</BORG_SECURITY_DIR>
+        <BORG_KEYS_DIR>/etc/borg/keys</BORG_KEYS_DIR>
+        <BORG_CACHE_DIR>/var/cache/borg</BORG_CACHE_DIR>
+        <BORG_LOG_DIR>/var/log/borg</BORG_LOG_DIR>
+        <TMPDIR>/var/borg-tmp</TMPDIR>
+    </env>
+    
+    <!--
+    The <repos></repos> sections contain the control parameters
+    for both starting a new repository, as well as for performing
+    backups. You can have as many sections as needed. 
+    
+    <repos name="unique_repo_name" created="yes|no">
+    The created flag must be initially set to 'no' so that l1borg
+    can create a new repository. When the repository is created
+    l1borg will set the flag to 'yes'. 
+
+    <run>yes|no</run> Indicates whether to process this section or not.
+    
+    <backup name="backup_name">
+    The backup name must follow all the same rules defined
+    by borgbackup, and you can even use the macros.
+    You can create as many <backup> </backup> sections as needed. 
+    
+    <source>PATH/FILES</source>
+    Informs the data source for backup, for example: /var/log/httpd.
+
+    <exclude-files> file-name.txt </exclude-file>
+    This option must be present even without a defined name.
+    Allows you to define exception patterns for filtration during
+    the backup. You must strictly follow the rules of BorgBackup. 
+
+    <dry-run>yes|no</dry-run> 
+    If it is 'yes' it will just simulate the process and backup.
+    If it is 'no' it will perform the backup.
+    <params> parameters-list </params>
+    Enter here all additional parameters for process control backup. The 
+    parameters must be informed in the same way as in the borgbackup.
+    If no parameters are information, the ones defined as standard by
+    borgbackup will be used
+
+    </backup>
+    </repos>
+            
+    -->
+    <repos name="R1" created="no">
+        <run>yes</run>
+        <backup name="bkp1_{now}">
+            <source>/data/folder01</source>
+            <exclude-file/>
+            <dry-run>no</dry-run>
+            <params>--show-rc --compression zstd,10 --list</params>
+        </backup>
+        <backup name="bkp2_{now}">
+            <source>/data/folder02</source>
+            <exclude-file>excludes01.dat</exclude-file>
+            <dry-run>no</dry-run>
+            <params>--show-rc --compression zstd,10 --list</params>
+        </backup>
+        <backup name="bkp3_{now}">
+            <source>/data/folder03</source>
+            <exclude-file/>
+            <dry-run>no</dry-run>
+            <params>--show-rc --compression zstd,10 --list</params>
+        </backup>
+    </repos>
+    <repos name="R2" created="yes">
+        <run>no</run>
+        <backup name="bkp1_{now}">
+            <source>/data/database</source>
+            <exclude-file>excludes.dat</exclude-file>
+            <dry-run>no</dry-run>
+            <params/>
+        </backup>
+    </repos>
+</l1borg>
