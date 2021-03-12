@@ -3,7 +3,7 @@
 The [1]BorgBackup is an amazing program to backup both local and remote using deduplication techniques. It is very simple to use and its features allow us to create scripts to customize and automate your operation.
 
 <b>l1borg</b> is a utility designed to solve some of my needs for automating the use of BorgBackup.<br>
-The <b>l1borg</b> load the settings for the backup running from the XML file <i>l1borg.xml</i>, and run the BorgBackup with the necessary parameters, in addition to being able to execute the native BorgBackup commands
+The <b>l1borg</b> load the settings for the backup running from the XML file <i>l1borg.xml</i>, and run the BorgBackup with the necessary parameters, in addition to being able to execute the native BorgBackup commands like: list, info, mount and so on.
 
 <b>l1borg</b> doesn't handle remote repositories, but only local.<br>
 At thist time, I don't really intend to make it a utility with many functions, and its evolution is linked to my usage needs, but feel free to use it as a starting point for a fork or new ideas.
