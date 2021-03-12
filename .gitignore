@@ -3,7 +3,6 @@ bin/
 CMakeLists.txt.user
 CMakeLists.txt.user.*
 *.dat
-*.txt
 *teste*
 *.tmp
 docs/*.odg
