@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <l1borg>
     <env>
-        <BORG_REPO>/dados/l1borg-test/Storage0</BORG_REPO>
+	<BORG_REPO>/data/borg-repos</BORG_REPO>
         <BORG_CONFIG_DIR>/etc/borg</BORG_CONFIG_DIR>
         <BORG_SECURITY_DIR>/etc/borg/security</BORG_SECURITY_DIR>
         <BORG_KEYS_DIR>/etc/borg/keys</BORG_KEYS_DIR>
@@ -12,16 +12,16 @@
     <repos name="R1" created="yes">
         <run>yes</run>
         <backup name="bkp1_{now}">
-            <source>/dados/desenvolvimento/aux_sql</source>
+	    <source>/home</source>
             <exclude-file/>
             <dry-run>no</dry-run>
             <params>--show-rc   --compression zstd,10 --list</params>
         </backup>
     </repos>
-    <repos name="R2" created="yes">
-        <run>no</run>
+    <repos name="R2" created="no">
+        <run>yes</run>
         <backup name="bkp2_{now}">
-            <source>/dados/desenvolvimento/sisctec</source>
+		<source>/var/log</source>
             <exclude-file/>
             <dry-run>no</dry-run>
         </backup>
