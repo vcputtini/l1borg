@@ -39,6 +39,7 @@
 
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <sstream>
 #include <iterator>
 #include <utility>
@@ -93,19 +94,20 @@ namespace EnvironConfig {
       XMLDocument doc;
       XMLElement *root;
 
+      constexpr static std::string_view configLocals[] = {
+          {"/etc/l1borg.xml"},
+          {"/etc/borg/l1borg.xml"},
+          {"/etc/l1borg/l1borg.xml"},
+          {"./l1borg.xml"}
+      };
+
       typedef std::tuple<std::string, std::string> tData;
       std::map<EnvironConfig::eEnvVars, tData> mEnv;
       std::map<eEnvVars, std::string> mVars;
 
       bool bError;
       const char* errorText;
-
       std::string configXMLFName;
-
-      constexpr static std::string_view cfg1 = "/etc/l1borg.xml";
-      constexpr static std::string_view cfg2 = "/etc/borg/l1borg.xml";
-      constexpr static std::string_view cfg3 = "/etc/l1borg/l1borg.xml";
-      constexpr static std::string_view cfg4 = "./l1borg.xml";
 
       EnvConfig();
 
@@ -132,29 +134,17 @@ namespace EnvironConfig {
         return std::string((errorText == nullptr) ? std::string() : errorText);
       }
 
-      const bool findCfgFile(std::string& folder) {
-        Command cmd;
-        if( cmd.exists(cfg1)) {
-            folder = std::string(cfg1);
-            return true;
-        }
-        else if(cmd.exists(cfg2)) {
-            folder = std::string(cfg2);
-            return true;
-        }
-        else if(cmd.exists(cfg3)) {
-            folder = std::string(cfg3);
-            return true;
-        }
-        else if(cmd.exists(cfg4)) {
-            folder = std::string(cfg4);
-            return true;
-        }
-        else {
-            folder = "";
-            return false;
-        }
-      }
+      const bool findCfgFile(std::string& folder)
+      {
+          Command cmd;
+          for(std::string_view s : configLocals) {
+              if(cmd.exists(s)) {
+                  folder = s;
+                  return true;
+              }
+          }
+          return false;
+      };
   };
 
   class EnvRepos

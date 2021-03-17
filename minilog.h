@@ -119,11 +119,11 @@ public:
             ss << c_dt;
     }
 
-        if(hdr.empty()) {
-           logfile << "> " << ss.str() << s << std::endl;
-        } else {
-           logfile << ss.str() << hdr << s << std::endl;
-        }
+    if(hdr.empty()) {
+       logfile << "> " << ss.str() << s << std::endl;
+    } else {
+       logfile << ss.str() << hdr << s << std::endl;
+    }
     };
 
     void closeLog() {

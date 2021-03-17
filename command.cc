@@ -33,7 +33,6 @@ int Command::processSyncIO(const std::vector<std::pair<std::string, std::string>
     DEBUG( sParms );
 
     auto env = boost::this_process::environment();
-
     for(auto &m : vEnv) {
         env[m.first.c_str()] = m.second.c_str();
     }
