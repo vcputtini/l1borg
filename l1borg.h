@@ -37,16 +37,15 @@
 #ifndef L1BORG_H
 #define L1BORG_H
 
-#include <iostream>
-#include <string>
+#include "globals.h"
+
 #include <unistd.h>
 #include <getopt.h>
 
-#include "globals.h"
 #include "command.h"
 #include "envconfig.h"
 
 using namespace EnvironConfig;
 
-
 #endif // L1BORG_H
+

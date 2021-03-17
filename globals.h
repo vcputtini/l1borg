@@ -37,6 +37,10 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include <iostream>
+#include <string>
+#include <string_view>
+
 #include "minilog.h"
 
 #define _DEBUG 1

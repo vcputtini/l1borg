@@ -37,8 +37,8 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <iostream>
-#include <string>
+#include "globals.h"
+
 #include <vector>
 #include <system_error>
 #include <iostream>
@@ -46,8 +46,6 @@
 #include <cstdio>
 #include <ctime>
 #include <boost/process.hpp>
-
-#include "globals.h"
 
 namespace fs = std::filesystem;
 namespace bp = boost::process;      // Boost::process

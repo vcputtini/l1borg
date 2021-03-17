@@ -37,9 +37,8 @@
 #ifndef ENVIRONMENT_H
 #define ENVIRONMENT_H
 
-#include <iostream>
-#include <string>
-#include <string_view>
+#include "globals.h"
+
 #include <sstream>
 #include <iterator>
 #include <utility>  // make_pair
@@ -51,7 +50,7 @@
 #include <tinyxml2.h>
 #include <boost/algorithm/string.hpp>
 
-#include "globals.h"
+
 #include "command.h"
 
 using namespace tinyxml2;

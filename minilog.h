@@ -55,8 +55,12 @@ class MiniLog
     };
 
 public:
-    MiniLog() {
-      logfile.open(fileNameLog(), std::ios_base::app);
+    MiniLog(std::string path="./") {
+        std::string fn;
+        fn.append(path);
+        fn.append("/");
+        fn.append(fileNameLog());
+      logfile.open(fn, std::ios_base::app);
     };
 
     enum class eLogFormat : int
