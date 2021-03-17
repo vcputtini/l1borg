@@ -37,7 +37,7 @@
 #ifndef MINILOG_H
 #define MINILOG_H
 
-#include <iostream>
+#include <string>
 #include <sstream>
 #include <fstream>
 #include <ctime>
@@ -76,7 +76,8 @@ public:
       None
     };
 
-    inline static std::string fileNameLog() {
+    inline static std::string fileNameLog()
+    {
       char dt_str[30];
       std::strftime(dt_str,30,"l1borg_%y-%m-%d.log", logDate());
       return dt_str;
@@ -126,7 +127,8 @@ public:
     }
     };
 
-    void closeLog() {
+    void closeLog()
+    {
       logfile.close();
     };
 

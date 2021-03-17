@@ -41,9 +41,9 @@
 #include <string>
 #include <vector>
 #include <system_error>
-#include <cstdio>
 #include <iostream>
 #include <filesystem>    // C++17
+#include <cstdio>
 #include <ctime>
 #include <boost/process.hpp>
 
@@ -75,7 +75,7 @@ public:
   static int processSyncIO(const std::vector<std::pair<std::string, std::string> > vEnv,
               const std::vector<std::string>& vParms, const bool logger=true);
 
-  // 3. Based in (Mar'21): https://www.programiz.com/cpp-programming/library-function/ctime/ctime
+  // 3. Based on (Mar'21): https://www.programiz.com/cpp-programming/library-function/ctime/ctime
   inline static char* currentDate() {
     std::time_t c_time;
     c_time = std::time(nullptr);
