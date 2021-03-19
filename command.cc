@@ -107,7 +107,6 @@ bool Command::mkdir(const fs::path& p)
   try {
     std::error_code ec;
     bool b = fs::create_directories(p, ec );
-    std::cout << p << "  " << b << std::endl;
     if(!b) {
        mlog.printLog("Command()::mkdir() error", ec.message(), MiniLog::eLogLevel::LogFatal, MiniLog::eLogFormat::LogDateTime);
     }
@@ -131,6 +130,5 @@ bool Command::rmdir(const fs::path& p)
   } catch (fs::filesystem_error err){
     mlog.printLog("Command()::rmdir() error", err.what(), MiniLog::eLogLevel::LogFatal, MiniLog::eLogFormat::LogDateTime);
   }
-
   return false;
 }

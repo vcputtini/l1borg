@@ -30,11 +30,10 @@ int main(int argc, char **argv)
 
   std::string folder;
   if( !EnvConfig::get().findCfgFile(folder)) {
-      //std::stringstream ss;
       std::string_view sv = "\n<warn> l1borg.xml NOT FOUND! Please create it!\n"
          "The possible installation folders for the l1borg.xml file are:\n"
          "/etc | /etc/borg | /etc/l1borg | same folder as l1borg executable.\n\n";
-      std::cout << sv; //ss.str();
+      std::cout << sv;
       return EXIT_FAILURE;
   }
 
