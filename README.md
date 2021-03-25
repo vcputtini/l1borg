@@ -23,7 +23,7 @@ Boost 1.73<br>
 tinyxml2-7.0.1-5<br>
 
 ### Flowchart
-![](flowchart.png)
+![](docs/flowchart.png)
 
 ### Usage<br>
 
