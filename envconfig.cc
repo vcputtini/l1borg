@@ -237,6 +237,8 @@ namespace EnvironConfig
           vCmd.push_back("--exclude-from");
           vCmd.push_back(std::get<2>(v.second));
         }
+        // std::get<0>(v.first): reponame
+        // std::get<0>(v.second): filename
         std::stringstream ss;
         ss << EnvConfig::get().Data(eEnvVars::BorgRepoDir) << "/"
             << subStr(std::get<0>(v.first)) << "::" << std::get<0>(v.second);
@@ -258,6 +260,41 @@ namespace EnvironConfig
       vParms.push_back(cmd);
       int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
       DEBUG( e );
+  }
+
+  void EnvRepos::ExecAlias(std::string parm, std::string cmd, std::string cmd1)
+  {
+      auto subStr = [](std::string s) {
+        return s.substr(0, s.find(":"));
+      };
+
+      std::vector<std::string> vParms;
+
+      if(parm == "diff") {
+          vParms.push_back(parm);
+          vParms.push_back(EnvConfig::get().Data(EnvironConfig::eEnvVars::BorgRepoDir) + "/" + cmd + " " + cmd1);
+          int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
+          DEBUG(e);
+          return;
+      }
+
+      if(cmd == "all") {
+         for(auto &v : mRepos) {
+             if(std::get<1>(v.first) == "yes") {
+                DEBUG( subStr(std::get<0>(v.first)) );
+                vParms.push_back(parm);
+                vParms.push_back(EnvConfig::get().Data(EnvironConfig::eEnvVars::BorgRepoDir) + "/" + subStr(std::get<0>(v.first)));
+                int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
+                DEBUG(e);
+                std::cout << "\n\n\n";
+             }
+         }
+      } else {
+         vParms.push_back(parm);
+         vParms.push_back(EnvConfig::get().Data(EnvironConfig::eEnvVars::BorgRepoDir) + "/" + cmd);
+         int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
+         DEBUG(e);
+      }
   }
 
   void EnvRepos::InitRepo()

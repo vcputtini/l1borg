@@ -39,6 +39,7 @@
 
 #include "globals.h"
 
+#include <iostream>
 #include <sstream>
 #include <iterator>
 #include <utility>  // make_pair
@@ -189,6 +190,7 @@ namespace EnvironConfig {
       void InitRepo();
       void MakeBackup();
       void ExecCmd(std::string cmd);
+      void ExecAlias(std::string parm, std::string cmd, std::string cmd1=nullptr);
 
       // how to get data from maps
       /**
