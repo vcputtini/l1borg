@@ -7,4 +7,5 @@ CMakeLists.txt.user.*
 *teste*
 *.tmp
 docs/*.odg
-
+l1borg.xml
+*.log
