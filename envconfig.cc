@@ -287,6 +287,7 @@ namespace EnvironConfig
                 int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
                 DEBUG(e);
                 std::cout << "\n\n\n";
+                vParms.clear(); // cannot accumulate
              }
          }
       } else {

@@ -190,7 +190,7 @@ namespace EnvironConfig {
       void InitRepo();
       void MakeBackup();
       void ExecCmd(std::string cmd);
-      void ExecAlias(std::string parm, std::string cmd, std::string cmd1=nullptr);
+      void ExecAlias(std::string parm, std::string cmd, std::string cmd1=std::string());
 
       // how to get data from maps
       /**
