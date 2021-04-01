@@ -23,7 +23,7 @@ Boost 1.73<br>
 tinyxml2-7.0.1-5<br>
 
 ### Flowchart
-![](flowchart.png)
+![](docs/flowchart.png)
 
 ### Usage<br>
 
@@ -40,7 +40,10 @@ Valid options are:<br>
 --list        : all | REPONAME[::FILENAME]"<br>
 &emsp;&emsp;&emsp;&emsp;NOTE: Enter only the repository name without the path: e.g: --list R1 | --list R1::archive<br>
 --diff        : REPONAME::ARCHIVE1 ARCHIVE2<br>
-&emsp;&emsp;&emsp;&emsp;NOTE: Enter only the repository name without the path<br><br>
+&emsp;&emsp;&emsp;&emsp;NOTE: Enter only the repository name without the path<br>
+--[u]mount    : Mount/umount an archive from a repository<br>
+&emsp;&emsp;&emsp;&emsp;--mount R1::ARCHIVE MOUNTPOINT<br>
+&emsp;&emsp;&emsp;&emsp;--umount MOUNTPOINT"<br><br>
 
 __l1borg.xml__ Sample: See docs/l1borg.xml
 
