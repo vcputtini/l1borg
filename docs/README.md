@@ -34,7 +34,7 @@ Valid options are:<br>
 --cmd         : Execute a BorgBackup command.<br>
 &emsp;&emsp;&emsp;&emsp;Double quotes are mandatory:<br>
 &emsp;&emsp;&emsp;&emsp;e.g.: l1borg --cmd info PATH/REPONAME --prefix=srv1<br>
-(the _--list_, _--info_ and _--diff_ commands are only simplifications of analogous commands in BorgBackup.)<br>
+(the _--list_, _--info_, _--diff_ and _[u]mount_ commands are only simplifications of analogous commands in BorgBackup.)<br>
 --info        : all | REPONAME[::FILENAME]<br>
 &emsp;&emsp;&emsp;&emsp;NOTE: Enter only the repository name without the path: e.g: --info R1 | --info R1::archive<br>
 --list        : all | REPONAME[::FILENAME]"<br>
