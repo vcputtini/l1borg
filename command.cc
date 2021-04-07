@@ -1,10 +1,6 @@
 #include "command.h"
 
-Command::Command() :
-  errorText(std::string()),
-  errorCode(0),
-  bError(0),
-  eError(0)
+Command::Command()
 {
   exists(CmdBorg);
 }
@@ -25,13 +21,14 @@ int Command::processSyncIO(const std::vector<std::pair<std::string, std::string>
 
     if(vParms.size() == 1) {
         sParms += " " + vParms.at(0);
-    } else {
+    } else { // <params></params>
         std::for_each(vParms.begin(), vParms.end(), [&sParms](std::string a)
             {sParms += " " + a; return sParms;}
         );
     }
     DEBUG( sParms );
 
+    // Custom environment variables
     auto env = boost::this_process::environment();
     for(auto &m : vEnv) {
         env[m.first.c_str()] = m.second.c_str();
@@ -42,7 +39,7 @@ int Command::processSyncIO(const std::vector<std::pair<std::string, std::string>
 
     // Exec child process
     try {
-        std::ofstream logfile(MiniLog::fileNameLog(), std::ios_base::app);        
+        std::ofstream logfile(mlog.fileNameLog(), std::ios_base::app);
         bp::child c(sParms.c_str(),  env, (bp::std_out & bp::std_err) > pipe_stream_out,
                     bp::on_exit = [&result, &c](int, const std::error_code &ec) {
                         auto exit_status = c.native_exit_code();
@@ -100,9 +97,8 @@ bool Command::exists(const fs::path& p)
 bool Command::mkdir(const fs::path& p)
 {
   MiniLog mlog;
-
   if(exists(p))
-      return true;
+     return true;
 
   try {
     std::error_code ec;

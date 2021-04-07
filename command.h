@@ -37,8 +37,6 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include "globals.h"
-
 #include <vector>
 #include <system_error>
 #include <iostream>
@@ -47,21 +45,18 @@
 #include <ctime>
 #include <boost/process.hpp>
 
+#include "globals.h"
+#include "minilog.h"
+
 namespace fs = std::filesystem;
 namespace bp = boost::process;      // Boost::process
 
 class Command
 {
-  std::string errorText;
-  int errorCode;
-  int bError;
-  int eError;
-
 public:
   Command();
 
   constexpr static std::string_view CmdBorg= "/usr/bin/borg";
-
 
   bool mkdir(const fs::path& p);
   bool rmdir(const fs::path& p);
