@@ -53,87 +53,86 @@ class MiniLog
       c_tm = std::localtime(&c_time);
       return c_tm;
     };
+    std::string path;
 
 public:
-    MiniLog(std::string path="./") {
-        std::string fn;
-        fn.append(path);
-        fn.append("/");
-        fn.append(fileNameLog());
-      logfile.open(fn, std::ios_base::app);
+    MiniLog(std::string Path="/var/log") {
+        path = std::move(Path);
+        logfile.open(fileNameLog(), std::ios_base::app);
     };
 
     enum class eLogFormat : int
     {
-      LogDateTime,
-      LogDate,
-      LogTime,
-      None
+        LogDateTime,
+        LogDate,
+        LogTime,
+        None
     };
 
     enum class eLogLevel : int
     {
-      LogInfo,
-      LogWarn,
-      LogCrit,
-      LogFatal,
-      None
+        LogInfo,
+        LogWarn,
+        LogCrit,
+        LogFatal,
+        None
     };
 
-    inline static std::string fileNameLog()
+    inline std::string fileNameLog()
     {
-      char dt_str[30];
-      std::strftime(dt_str,30,"l1borg_%y-%m-%d.log", logDate());
-      return dt_str;
+        char dt_str[80];
+        std::string s(path + "/l1borg_%y_%m_%d.log");
+        std::strftime(dt_str,80, s.c_str(), logDate());
+        return dt_str;
     };
 
 
     template<typename T>
     void printLog(std::string hdr=nullptr, T s=nullptr, eLogLevel lvl=eLogLevel::None, eLogFormat fmt=eLogFormat::None)
     {
-    char c_dt[30];
-    switch(fmt) {
-        case eLogFormat::LogTime:
-            std::strftime(c_dt,30,"[%T]: ", logDate());
-            break;
-        case eLogFormat::LogDate:
-            std::strftime(c_dt,30,"[%Y-%m-%d]: ", logDate());
-            break;
-        case eLogFormat::LogDateTime:
-            std::strftime(c_dt,30,"[%Y-%m-%d %T]: ", logDate());
-            break;
-        default:
-            std::strftime(c_dt,30,"", logDate());
-    }
+        char c_dt[30];
+        switch(fmt) {
+            case eLogFormat::LogTime:
+                std::strftime(c_dt,30,"[%T]: ", logDate());
+                break;
+            case eLogFormat::LogDate:
+                std::strftime(c_dt,30,"[%Y-%m-%d]: ", logDate());
+                break;
+            case eLogFormat::LogDateTime:
+                std::strftime(c_dt,30,"[%Y-%m-%d %T]: ", logDate());
+                break;
+            default:
+                std::strftime(c_dt,30," ", logDate());
+        }
 
-    std::stringstream ss;
-    switch(lvl) {
-        case eLogLevel::LogInfo:
-            ss << "<info> " << c_dt;
-            break;
-        case eLogLevel::LogWarn:
-            ss << "<warn> " << c_dt;
-            break;
-        case eLogLevel::LogCrit:
-            ss << "<critical> " << c_dt;
-            break;
-        case eLogLevel::LogFatal:
-            ss << "<fatal> " << c_dt;
-            break;
-        default:
-            ss << c_dt;
-    }
+        std::stringstream ss;
+        switch(lvl) {
+            case eLogLevel::LogInfo:
+                ss << "<info> " << c_dt;
+                break;
+            case eLogLevel::LogWarn:
+                ss << "<warn> " << c_dt;
+                break;
+            case eLogLevel::LogCrit:
+                ss << "<critical> " << c_dt;
+                break;
+            case eLogLevel::LogFatal:
+                ss << "<fatal> " << c_dt;
+                break;
+            default:
+                ss << c_dt;
+        }
 
-    if(hdr.empty()) {
-       logfile << "> " << ss.str() << s << std::endl;
-    } else {
-       logfile << ss.str() << hdr << s << std::endl;
-    }
+        if(hdr.empty()) {
+           logfile << "> " << ss.str() << s << std::endl;
+        } else {
+           logfile << ss.str() << hdr << s << std::endl;
+        }
     };
 
     void closeLog()
     {
-      logfile.close();
+        logfile.close();
     };
 
 };

@@ -33,7 +33,7 @@ namespace EnvironConfig
                mEnv.insert( std::make_pair(e,
                  std::make_tuple( varname,
                        std::string(env->FirstChildElement(varname.c_str())->GetText()))));
-               // Create directories
+              // Create directories, if not exist
               Command cmd;
               cmd.mkdir(std::string(env->FirstChildElement(varname.c_str())->GetText()));
              }
@@ -43,6 +43,19 @@ namespace EnvironConfig
        errorText = doc.ErrorStr();
      } // doc.LoadFile
   }
+
+  bool EnvConfig::findCfgFile(std::string& folder)
+  {
+      Command cmd;
+      for(std::string_view s : configLocals) {
+          if(cmd.exists(s)) {
+              folder = s;
+              return true;
+          }
+      }
+      return false;
+  };
+
 
   std::string EnvConfig::Name(EnvironConfig::eEnvVars e)
   {
@@ -88,15 +101,15 @@ namespace EnvironConfig
 
   std::vector<std::pair<std::string, std::string>> EnvConfig::GetVarsPair()
   {
-      std::vector<std::pair<std::string, std::string>> v = {
-        std::make_pair(EnvConfig::get().Name(eEnvVars::BorgRepoDir),EnvConfig::get().Data(eEnvVars::BorgRepoDir)),
-        std::make_pair(EnvConfig::get().Name(eEnvVars::BorgConfigDir),EnvConfig::get().Data(eEnvVars::BorgConfigDir)),
-        std::make_pair(EnvConfig::get().Name(eEnvVars::BorgSecurityDir),EnvConfig::get().Data(eEnvVars::BorgSecurityDir)),
-        std::make_pair(EnvConfig::get().Name(eEnvVars::BorgKeysDir),EnvConfig::get().Data(eEnvVars::BorgKeysDir)),
-        std::make_pair(EnvConfig::get().Name(eEnvVars::BorgCacheDir),EnvConfig::get().Data(eEnvVars::BorgCacheDir)),
-        std::make_pair(EnvConfig::get().Name(eEnvVars::BorgTmpDir),EnvConfig::get().Data(eEnvVars::BorgTmpDir))
-      };
-      return v;
+    std::vector<std::pair<std::string, std::string>> v = {
+    std::make_pair(EnvConfig::get().Name(eEnvVars::BorgRepoDir),EnvConfig::get().Data(eEnvVars::BorgRepoDir)),
+    std::make_pair(EnvConfig::get().Name(eEnvVars::BorgConfigDir),EnvConfig::get().Data(eEnvVars::BorgConfigDir)),
+    std::make_pair(EnvConfig::get().Name(eEnvVars::BorgSecurityDir),EnvConfig::get().Data(eEnvVars::BorgSecurityDir)),
+    std::make_pair(EnvConfig::get().Name(eEnvVars::BorgKeysDir),EnvConfig::get().Data(eEnvVars::BorgKeysDir)),
+    std::make_pair(EnvConfig::get().Name(eEnvVars::BorgCacheDir),EnvConfig::get().Data(eEnvVars::BorgCacheDir)),
+    std::make_pair(EnvConfig::get().Name(eEnvVars::BorgTmpDir),EnvConfig::get().Data(eEnvVars::BorgTmpDir))
+    };
+    return v;
   }
 
   // **************************************************************************
@@ -250,7 +263,7 @@ namespace EnvironConfig
         vCmd.clear();
       }
     }
-    mlog.printLog("End Backup: ", "",MiniLog::eLogLevel::LogInfo, MiniLog::eLogFormat::LogDateTime);
+    mlog.printLog("End Backup: ", "", MiniLog::eLogLevel::LogInfo, MiniLog::eLogFormat::LogDateTime);
     mlog.closeLog();
   }
 
@@ -258,7 +271,7 @@ namespace EnvironConfig
   {
       std::vector<std::string> vParms;
       vParms.push_back(cmd);
-      int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
+      [[maybe_unused]] int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
       DEBUG( e );
   }
 
@@ -273,7 +286,7 @@ namespace EnvironConfig
       if(parm == "diff") {
           vParms.push_back(parm);
           vParms.push_back(EnvConfig::get().Data(EnvironConfig::eEnvVars::BorgRepoDir) + "/" + cmd + " " + cmd1);
-          int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
+          [[maybe_unused]] int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
           DEBUG(e);
           return;
       }
@@ -282,9 +295,10 @@ namespace EnvironConfig
          for(auto &v : mRepos) {
              if(std::get<1>(v.first) == "yes") {
                 DEBUG( subStr(std::get<0>(v.first)) );
+                std::cout << "Repository: " << subStr(std::get<0>(v.first)) << std::endl << std::string(30,'-') << std::endl;
                 vParms.push_back(parm);
                 vParms.push_back(EnvConfig::get().Data(EnvironConfig::eEnvVars::BorgRepoDir) + "/" + subStr(std::get<0>(v.first)));
-                int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
+                [[maybe_unused]] int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
                 DEBUG(e);
                 std::cout << "\n\n\n";
                 vParms.clear(); // cannot accumulate
@@ -293,7 +307,7 @@ namespace EnvironConfig
       } else {
          vParms.push_back(parm);
          vParms.push_back(EnvConfig::get().Data(EnvironConfig::eEnvVars::BorgRepoDir) + "/" + cmd);
-         int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
+         [[maybe_unused]] int e = Command::processSyncIO( EnvConfig::GetVarsPair(), vParms, false);
          DEBUG(e);
       }
   }

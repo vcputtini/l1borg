@@ -38,12 +38,8 @@
 #define GLOBALS_H
 
 #include <iostream>
-#include <string>
-#include <string_view>
 
-#include "minilog.h"
-
-#define _DEBUG 1
+#define _DEBUG 0
 #define DEBUG(x) ({                    \
     if( _DEBUG)                        \
         std::cout << "DBG: " << x << std::endl;   \

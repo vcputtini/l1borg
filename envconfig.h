@@ -37,13 +37,11 @@
 #ifndef ENVIRONMENT_H
 #define ENVIRONMENT_H
 
-#include "globals.h"
-
 #include <iostream>
 #include <sstream>
 #include <iterator>
-#include <utility>  // make_pair
 #include <algorithm>
+#include <utility>  // make_pair
 #include <map>
 #include <tuple>
 #include <set>
@@ -51,7 +49,7 @@
 #include <tinyxml2.h>
 #include <boost/algorithm/string.hpp>
 
-
+#include "globals.h"
 #include "command.h"
 
 using namespace tinyxml2;
@@ -59,36 +57,36 @@ using namespace tinyxml2;
 namespace EnvironConfig {
   enum class eEnvVars
   {
-                        BorgRepoDir,
-                        BorgConfigDir,
-                        BorgSecurityDir,
-                        BorgKeysDir,
-                        BorgCacheDir,
-                        BorgLogDir,
-                        BorgTmpDir
+        BorgRepoDir,
+        BorgConfigDir,
+        BorgSecurityDir,
+        BorgKeysDir,
+        BorgCacheDir,
+        BorgLogDir,
+        BorgTmpDir
   };
 
   enum class eRepoParms
   {
-                        RepoName,
-                        BkpName,
-                        BkpSource,
-                        BkpExcludes
+        RepoName,
+        BkpName,
+        BkpSource,
+        BkpExcludes
   };
 
   constexpr std::initializer_list<eEnvVars> EnvVars =
   {
-                        eEnvVars::BorgRepoDir,
-                        eEnvVars::BorgConfigDir,
-                        eEnvVars::BorgSecurityDir,
-                        eEnvVars::BorgKeysDir,
-                        eEnvVars::BorgCacheDir,
-                        eEnvVars::BorgLogDir,
-                        eEnvVars::BorgTmpDir
+        eEnvVars::BorgRepoDir,
+        eEnvVars::BorgConfigDir,
+        eEnvVars::BorgSecurityDir,
+        eEnvVars::BorgKeysDir,
+        eEnvVars::BorgCacheDir,
+        eEnvVars::BorgLogDir,
+        eEnvVars::BorgTmpDir
   };
 
   // Singleton based in
-  //     http://www.vishalchovatiya.com/singleton-design-pattern-in-modern-cpp/
+  // http://www.vishalchovatiya.com/singleton-design-pattern-in-modern-cpp/
   class EnvConfig
   {
       XMLDocument doc;
@@ -129,23 +127,13 @@ namespace EnvironConfig {
       inline static std::vector<std::string> GetVars();
       inline static std::vector<std::pair<std::string, std::string>> GetVarsPair();
 
+      bool findCfgFile(std::string& folder);
+
       const std::string ErrorText()
       {
         return std::string((errorText == nullptr) ? std::string() : errorText);
       }
-
-      const bool findCfgFile(std::string& folder)
-      {
-          Command cmd;
-          for(std::string_view s : configLocals) {
-              if(cmd.exists(s)) {
-                  folder = s;
-                  return true;
-              }
-          }
-          return false;
-      };
-  };
+  }; // EnvConfig
 
   class EnvRepos
   {
@@ -155,15 +143,12 @@ namespace EnvironConfig {
       typedef std::tuple<std::string, std::string, std::string> tRepoIdx;
       typedef std::tuple<std::string, std::string, std::string, std::string, std::string> tRepoParms;
       std::map<tRepoIdx, tRepoParms> mRepos;
-      std::set<std::string> repoSet;  // nome dos repos ja criados
+      std::set<std::string> repoSet;  // name of repos already created
 
       bool bError;
       bool eError;
       const char* errorText;
       std::string configXMLFName;
-
-
-      MiniLog mlog;
 
       EnvRepos();
 
@@ -203,7 +188,7 @@ namespace EnvironConfig {
         }
       }
       */
-  };
+  }; // EnvRepos
 
 
 
